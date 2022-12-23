@@ -29,7 +29,7 @@ LinReg_DCT = {}
 Slope_Int = []
 counter = 0
 CAT_LIST = ["CRIM","ZN","INDUS","CHAS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"]
-with open("boston.txt") as fp:
+with open(r"ML-Journey\Supervised-Learning\Linear-Regression\boston.txt") as fp:
     Boston_DCT = {}
     data_string = ""
     for i, line in enumerate(fp):
@@ -159,5 +159,5 @@ def MakeGraph(Type):
         print("Slope = ", LinReg_DCT[STR_Y][STR_Z][2])
     plt.show()
     
-print(LinReg_DCT['MEDV'])
+#print(LinReg_DCT['MEDV'])
 MakeGraph(Dimension)
