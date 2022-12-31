@@ -15,6 +15,7 @@
  LSTAT    % lower status of the population
  MEDV     Median value of owner-occupied homes in $1000's
 """
+import timeit
 import numpy as np
 import math
 from mpl_toolkits.mplot3d import Axes3D
@@ -84,37 +85,53 @@ def max(arr):
             max = arr[i]
     max = math.ceil(max)
     return max
+
+def Matrix_Time_LR(X, y):
 # Define the linear regression function(s)
-def Matrix_linear_regression(X, y):
-  # Add a column of ones to X
-  X = np.column_stack((np.ones(len(X)), X))
-  # Convert X and y to matrices
-  X = np.matrix(X)
-  y = np.matrix(y).T
-  # Calculate the weight matrix using the matrix inverse method
-  weight_matrix = np.linalg.inv(X.T @ X) @ X.T @ y
-  # Extract the weight values from the weight matrix
-  intercept = weight_matrix[0,0]
-  slope = weight_matrix[1,0]
-  return intercept, slope
-def Calculus_linear_regression(X, y):
-  # Calculate the mean of X and y
-  x_mean = np.mean(X)
-  y_mean = np.mean(y)
-  # Calculate the sum of the squared differences between X and the mean of X
-  sum_x_diff_squared = np.sum((X - x_mean)**2)
-  # Calculate the slope using the formula:
-  # slope = sum((X - mean(X)) * (Y - mean(Y))) / sum((X - mean(X))**2)
-  slope = np.sum((X - x_mean) * (y - y_mean)) / sum_x_diff_squared
-  # Calculate the intercept using the formula:
-  # intercept = mean(Y) - slope * mean(X)
-  intercept = y_mean - slope * x_mean
-  return intercept, slope
+    def Matrix_linear_regression(X, y):
+    # Add a column of ones to X
+        X = np.column_stack((np.ones(len(X)), X))
+        # Convert X and y to matrices
+        X = np.matrix(X)
+        y = np.matrix(y).T
+        # Calculate the weight matrix using the matrix inverse method
+        weight_matrix = np.linalg.inv(X.T @ X) @ X.T @ y
+        # Extract the weight values from the weight matrix
+        intercept = weight_matrix[0,0]
+        slope = weight_matrix[1,0]
+        return intercept, slope
+    execution_time = timeit.timeit(lambda: Matrix_linear_regression(X, y), number=1)
+    return execution_time, Matrix_linear_regression(X, y)
+
+def Calc_Time_LR(X,y):
+    def Calculus_linear_regression(X, y):
+        # Calculate the mean of X and y
+        x_mean = np.mean(X)
+        y_mean = np.mean(y)
+        # Calculate the sum of the squared differences between X and the mean of X
+        sum_x_diff_squared = np.sum((X - x_mean)**2)
+        # Calculate the slope using the formula:
+        # slope = sum((X - mean(X)) * (Y - mean(Y))) / sum((X - mean(X))**2)
+        slope = np.sum((X - x_mean) * (y - y_mean)) / sum_x_diff_squared
+        # Calculate the intercept using the formula:
+        # intercept = mean(Y) - slope * mean(X)
+        intercept = y_mean - slope * x_mean
+        return intercept, slope
+    execution_time = timeit.timeit(lambda: Calculus_linear_regression(X, y), number=1)
+    return execution_time, Calculus_linear_regression(X, y)
 
 plt.scatter(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
-print(type(Boston_Data_DCT['LSTAT']))
 
-intercept, slope = Matrix_linear_regression(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
+CalcTime, (intercept, slope) = Calc_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
+print("CalcTime: ", CalcTime)
+MatrixTime, (intercept, slope) = Matrix_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
+print("MatrixTime: ", MatrixTime)
+
+if MatrixTime > CalcTime:
+    print("CalcTime is faster than MatrixTime", CalcTime, " < ", MatrixTime)
+else:
+    print("MatrixTime is faster than CalcTime", MatrixTime, " < ", CalcTime)
+
 x_int = np.linspace(min(Boston_Data_DCT['MEDV']),max(Boston_Data_DCT['MEDV']),100)
 y_int = (slope*x_int)+intercept
 plt.plot(x_int,y_int, color='red')
