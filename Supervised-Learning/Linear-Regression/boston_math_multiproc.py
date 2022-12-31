@@ -89,23 +89,25 @@ def max(arr):
     max = math.ceil(max)
     return max
 
-def Matrix_Time_LR(X, y, chunk_size=10):
-# Define the linear regression function(s)
-    def Matrix_linear_regression(X, y):
+def Matrix_linear_regression(X, y):
     # Add a column of ones to X
-        X = np.column_stack((np.ones(len(X)), X))
-        # Convert X and y to matrices
-        X = np.matrix(X)
-        y = np.matrix(y).T
-        # Calculate the weight matrix using the matrix inverse method
-        weight_matrix = np.linalg.inv(X.T @ X) @ X.T @ y
-        # Extract the weight values from the weight matrix
-        intercept = weight_matrix[0,0]
-        slope = weight_matrix[1,0]
-        return intercept, slope
-    
-    execution_time = timeit.timeit(lambda: Matrix_linear_regression(X, y), number=1)
-    return execution_time, Matrix_linear_regression(X, y)
+    X = np.column_stack((np.ones(len(X)), X))
+    # Convert X and y to matrices
+    X = np.matrix(X)
+    y = np.matrix(y).T
+    # Calculate the weight matrix using the matrix inverse method
+    weight_matrix = np.linalg.inv(X.T @ X) @ X.T @ y
+    # Extract the weight values from the weight matrix
+    intercept = weight_matrix[0,0]
+    slope = weight_matrix[1,0]
+    return intercept, slope
+
+def Matrix_Time_LR(X, y, chunk_size=10):
+    with multiprocessing.Pool() as pool:
+        result = [pool.apply_async(Matrix_linear_regression, (X[i:i+chunk_size], y[i:i+chunk_size])) for i in range(0, len(X), chunk_size)]
+        intercept, slope = zip(*[r.get() for r in result])
+    execution_time = timeit.timeit(lambda: (intercept, slope), number=1)
+    return execution_time, (intercept, slope)   
 
 def Calc_Time_LR(X,y):
     def Calculus_linear_regression(X, y):
@@ -124,15 +126,22 @@ def Calc_Time_LR(X,y):
     execution_time = timeit.timeit(lambda: Calculus_linear_regression(X, y), number=1)
     return execution_time, Calculus_linear_regression(X, y)
 
-plt.scatter(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
+if __name__ == '__main__':
+    MatrixTime, (intercept, slope) = Matrix_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
+    print(f"Elapsed Matrix time: {MatrixTime:.10f} seconds")
+    CalcTime, (intercept, slope) = Calc_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
+    print(f"Elapsed Calculus time: {CalcTime:.10f} seconds")
+
+#plt.scatter(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
 #CalcTime, (intercept, slope) = Calc_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
-MatrixTime, (intercept, slope) = Matrix_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
-x_int = np.linspace(min(Boston_Data_DCT['MEDV']),max(Boston_Data_DCT['MEDV']),100)
-y_int = (slope*x_int)+intercept
-plt.plot(x_int,y_int, color='red')
-plt.show()
+#MatrixTime, (intercept, slope) = Matrix_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
+#print(MatrixTime)
+#x_int = np.linspace(min(Boston_Data_DCT['MEDV']),max(Boston_Data_DCT['MEDV']),100)
+#y_int = (slope*x_int)+intercept
+#plt.plot(x_int,y_int, color='red')
+#plt.show()
 
-
+"""
 elapsed_time = 0
 for i in range(len(Data_Name_List)):
     for j in range(len(Data_Name_List)):
@@ -150,3 +159,4 @@ for i in range(len(Data_Name_List)):
             elapsed_time = elapsed_time + MatrixTime
             #print(Data_Name_List[i], "+", Data_Name_List[j], "= MatrixTime: ", MatrixTime, " Intercept: ", intercept, " Slope: ", slope)
 print(f"Elapsed MATRIX time: {elapsed_time:.6f} seconds")
+"""
