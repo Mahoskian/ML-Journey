@@ -27,43 +27,40 @@ Dimension = "2D" #CHOOSE: 2D or 3D
 Boston_list = []
 LinReg_DCT = {}
 Slope_Int = []
-counter = 0
 CAT_LIST = ["CRIM","ZN","INDUS","CHAS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"]
+
 with open(r"ML-Journey\Supervised-Learning\Linear-Regression\boston.txt") as fp:
-    Boston_DCT = {}
+    Temp_DCT = {}
     data_string = ""
     for i, line in enumerate(fp):
-        if i>21:
-            if i%2==0:
-                data_string+=line
-            else:
-                counter = counter + 1
-                data_string+=line
-                string_list = data_string.split()
-                float_list = []
-                for i in range(len(string_list)):
-                    float_list.append(float(string_list[i]))
+        if i%2==0:
+            data_string+=line
+        else:
+            data_string+=line
+            string_list = data_string.split()
+            float_list = []
+            for i in range(len(string_list)):
+                float_list.append(float(string_list[i]))
+            
+            Temp_DCT["CRIM"] = float_list[0]
+            Temp_DCT["ZN"] = float_list[1]
+            Temp_DCT["INDUS"] = float_list[2]
+            Temp_DCT["CHAS"] = float_list[3]
+            Temp_DCT["NOX"] = float_list[4]
+            Temp_DCT["RM"] = float_list[5]
+            Temp_DCT["AGE"] = float_list[6]
+            Temp_DCT["DIS"] = float_list[7]
+            Temp_DCT["RAD"] = float_list[8]
+            Temp_DCT["TAX"] = float_list[9]
+            Temp_DCT["PTRATIO"] = float_list[10]
+            Temp_DCT["B"] = float_list[11]
+            Temp_DCT["LSTAT"] = float_list[12]
+            Temp_DCT["MEDV"] = float_list[13]
                 
-                Boston_DCT["NUMBER"] = counter
-                Boston_DCT["CRIM"] = float_list[0]
-                Boston_DCT["ZN"] = float_list[1]
-                Boston_DCT["INDUS"] = float_list[2]
-                Boston_DCT["CHAS"] = float_list[3]
-                Boston_DCT["NOX"] = float_list[4]
-                Boston_DCT["RM"] = float_list[5]
-                Boston_DCT["AGE"] = float_list[6]
-                Boston_DCT["DIS"] = float_list[7]
-                Boston_DCT["RAD"] = float_list[8]
-                Boston_DCT["TAX"] = float_list[9]
-                Boston_DCT["PTRATIO"] = float_list[10]
-                Boston_DCT["B"] = float_list[11]
-                Boston_DCT["LSTAT"] = float_list[12]
-                Boston_DCT["MEDV"] = float_list[13]
+            Boston_list.append(Temp_DCT)
                 
-                Boston_list.append(Boston_DCT)
-                
-                data_string=""
-                Boston_DCT = {}
+            data_string=""
+            Temp_DCT = {}
     fp.close()
 def ARR_DCT(name):
     C_ARR = []
@@ -160,4 +157,5 @@ def MakeGraph(Type):
     plt.show()
     
 #print(LinReg_DCT['MEDV'])
+print(ARR_X)
 MakeGraph(Dimension)
