@@ -16,6 +16,8 @@
  MEDV     Median value of owner-occupied homes in $1000's
 """
 import timeit
+import time
+import multiprocessing
 import numpy as np
 import math
 from mpl_toolkits.mplot3d import Axes3D
@@ -121,18 +123,28 @@ def Calc_Time_LR(X,y):
     return execution_time, Calculus_linear_regression(X, y)
 
 plt.scatter(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
-
 CalcTime, (intercept, slope) = Calc_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
-print("CalcTime: ", CalcTime)
 MatrixTime, (intercept, slope) = Matrix_Time_LR(Boston_Data_DCT['MEDV'], Boston_Data_DCT['LSTAT'])
-print("MatrixTime: ", MatrixTime)
-
-if MatrixTime > CalcTime:
-    print("CalcTime is faster than MatrixTime", CalcTime, " < ", MatrixTime)
-else:
-    print("MatrixTime is faster than CalcTime", MatrixTime, " < ", CalcTime)
-
 x_int = np.linspace(min(Boston_Data_DCT['MEDV']),max(Boston_Data_DCT['MEDV']),100)
 y_int = (slope*x_int)+intercept
 plt.plot(x_int,y_int, color='red')
 plt.show()
+
+
+elapsed_time = 0
+for i in range(len(Data_Name_List)):
+    for j in range(len(Data_Name_List)):
+        if Data_Name_List[i] != Data_Name_List[j]:
+            CalcTime, (intercept, slope) = Calc_Time_LR(Boston_Data_DCT[Data_Name_List[i]], Boston_Data_DCT[Data_Name_List[j]])
+            elapsed_time = elapsed_time + CalcTime
+            #print(Data_Name_List[i], "+", Data_Name_List[j], "= CalcTime: ", CalcTime, " Intercept: ", intercept, " Slope: ", slope)
+  
+print(f"Elapsed CALCULUS time: {elapsed_time:.6f} seconds")
+elapsed_time = 0
+for i in range(len(Data_Name_List)):
+    for j in range(len(Data_Name_List)):
+        if Data_Name_List[i] != Data_Name_List[j]:
+            MatrixTime, (intercept, slope) = Matrix_Time_LR(Boston_Data_DCT[Data_Name_List[i]], Boston_Data_DCT[Data_Name_List[j]])
+            elapsed_time = elapsed_time + MatrixTime
+            #print(Data_Name_List[i], "+", Data_Name_List[j], "= MatrixTime: ", MatrixTime, " Intercept: ", intercept, " Slope: ", slope)
+print(f"Elapsed MATRIX time: {elapsed_time:.6f} seconds")
