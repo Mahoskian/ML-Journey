@@ -19,17 +19,14 @@
  LSTAT    % lower status of the population
  MEDV     Median value of owner-occupied homes in $1000's
 """
-import timeit
-import time
-import multiprocessing
 import numpy as np
 import math
-from mpl_toolkits.mplot3d import Axes3D
+import pandas as pd
 import matplotlib.pyplot as plt
 
 #Select Data
-STR_X = 'AGE'
-STR_Y = 'TAX'
+STR_X = 'LSTAT'
+STR_Y = 'MEDV'
 
 Boston_list = []
 Data_DCT_Names = ["CRIM","ZN","INDUS","CHAS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"]
@@ -203,5 +200,5 @@ def MakeGraph(STR_X,STR_Y):
     
     plt.legend()
     plt.show()
- 
+
 MakeGraph(STR_X,STR_Y)
