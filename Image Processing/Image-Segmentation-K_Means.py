@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
 # Load the image
-img = plt.imread(r'C:\Users\soham\Documents\GitHub\ML-Journey\Image Processing\input-images\image.jpg')
+img = plt.imread(r'C:\Users\soham\Documents\GitHub\Passion-Projects\Image Processing\input-images\image.jpg')
+
 gray_map = plt.cm.colors.LinearSegmentedColormap.from_list('my_gray', [(0, 'black'), (1, 'white')])
 # Convert the image to grayscale
 gray_img = np.dot(img[...,:3], [0.2989, 0.5870, 0.1140])
@@ -23,7 +24,7 @@ cluster_assignments = kmeans.predict(pixel_values.reshape(-1, 1))
 # Reshape the cluster assignments back into a 2D array
 clustered_image = 1 - cluster_assignments.reshape(gray_img.shape)
 
-plt.imsave(r'C:\Users\soham\Documents\GitHub\ML-Journey\Image Processing\output-images\Image-Segmentation-KMeans-Result.png', clustered_image, cmap=gray_map)
+plt.imsave(r'C:\Users\soham\Documents\GitHub\Passion-Projects\Image Processing\output-images\Image-Segmentation-KMeans-Result.png', clustered_image, cmap=gray_map)
 
 # Visualize the segmented image
 plt.imshow(clustered_image, cmap='gray')

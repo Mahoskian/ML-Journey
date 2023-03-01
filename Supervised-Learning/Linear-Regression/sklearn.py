@@ -29,7 +29,7 @@ LinReg_DCT = {}
 Slope_Int = []
 CAT_LIST = ["CRIM","ZN","INDUS","CHAS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"]
 
-with open(r"ML-Journey\Supervised-Learning\Linear-Regression\boston.txt") as fp:
+with open(r"Passion-Projects\Supervised-Learning\Linear-Regression\boston.txt") as fp:
     Temp_DCT = {}
     data_string = ""
     for i, line in enumerate(fp):

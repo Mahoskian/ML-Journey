@@ -33,7 +33,7 @@ Data_DCT_Names = ["CRIM","ZN","INDUS","CHAS","NOX","RM","AGE","DIS","RAD","TAX",
 Data_DCT = {}
 
 # Open the file and read the data into a list of dictionaries
-with open(r"ML-Journey\Supervised-Learning\Linear-Regression\boston.txt") as fp:
+with open(r"Passion-Projects\Supervised-Learning\Linear-Regression\boston.txt") as fp:
     Temp_DCT = {}
     data_string = ""
     for i, line in enumerate(fp):

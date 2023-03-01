@@ -24,7 +24,7 @@ def my_convolve2d(img, kernel, mode='same'):
 gray_map = plt.cm.colors.LinearSegmentedColormap.from_list('my_gray', [(0, 'black'), (1, 'white')])
 
 # Load image
-img = plt.imread(r'C:\Users\soham\Documents\GitHub\ML-Journey\Image Processing\input-images\image.jpg')
+img = plt.imread(r'C:\Users\soham\Documents\GitHub\Passion-Projects\Image Processing\input-images\image.jpg')
 
 # Convert to grayscale
 gray = np.dot(img[..., :3], [1.0, 1.0, 1.0])
@@ -42,6 +42,6 @@ grad = np.sqrt(grad_x**2 + grad_y**2)
 grad = 1 - (grad / np.max(grad))
 
 # Show edge detection result
-plt.imsave(r'C:\Users\soham\Documents\GitHub\ML-Journey\Image Processing\output-images\Sobel-Edge-Detection-Result.png', grad, cmap=gray_map)
+plt.imsave(r'C:\Users\soham\Documents\GitHub\Passion-Projects\Image Processing\output-images\Sobel-Edge-Detection-Result.png', grad, cmap=gray_map)
 plt.imshow(grad, cmap=gray_map)
 plt.show()

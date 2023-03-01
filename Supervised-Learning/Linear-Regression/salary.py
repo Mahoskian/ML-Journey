@@ -19,7 +19,7 @@ def normalize(arr):
     std = np.std(arr)
     return (arr - mean) / std
 # Open the file and read the data into a list of dictionaries
-with open(r"ML-Journey\Supervised-Learning\Linear-Regression\Salary.csv") as fp:
+with open(r"Passion-Projects\Supervised-Learning\Linear-Regression\Salary.csv") as fp:
     Temp_DCT = {}
     YearsExperience = []
     Salary = []
