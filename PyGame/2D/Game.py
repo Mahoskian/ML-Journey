@@ -8,7 +8,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT))
-        pygame.display.set_caption("Hammy's Game")
+        pygame.display.set_caption("Sohams Physics Simulator - WIP")
         self.clock = pygame.time.Clock()
         self.running = True
         
@@ -59,5 +59,5 @@ class Game:
         pygame.display.flip()
 
     def render_text(self, text, position):
-        text_surface = pygame.font.Font(None, 18).render(text, True, "GREEN")
+        text_surface = pygame.font.Font(None, 18).render(text, True, "PURPLE")
         self.screen.blit(text_surface, position)
