@@ -20,16 +20,17 @@ import math
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+
 plt.rcParams["figure.figsize"] = [10, 5]
 plt.rcParams["figure.autolayout"] = True
 STR_X,STR_Y,STR_Z = "MEDV","LSTAT","ZN" #CHOOSE: CRIM,ZN,INDUS,CHAS,NOX,RM,AGE,DIS,RAD,TAX,PTRATIO,B,LSTAT,MEDV
-Dimension = "2D" #CHOOSE: 2D or 3D
+Dimension = "3D" #CHOOSE: 2D or 3D
 Boston_list = []
 LinReg_DCT = {}
 Slope_Int = []
 CAT_LIST = ["CRIM","ZN","INDUS","CHAS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"]
 
-with open(r"Passion-Projects\Supervised-Learning\Linear-Regression\boston.txt") as fp:
+with open(r"C:\Users\soham\Documents\GitHub\Passion-Projects\Supervised-Learning\Linear-Regression\boston.txt") as fp:
     Temp_DCT = {}
     data_string = ""
     for i, line in enumerate(fp):
